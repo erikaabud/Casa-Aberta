@@ -9,112 +9,118 @@ function App() {
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="nav-logo">
+            <span className="logo-icon">⚔️</span>
+            <span className="logo-text">UMBRAETH</span>
+            <span className="logo-subtitle">As Crônicas</span>
+          </div>
+          <ul className="nav-menu">
+            <li><a href="#home">✦ Início</a></li>
+            <li><a href="#lore">📜 Lore</a></li>
+            <li><a href="#herois">⚔️ Heróis</a></li>
+            <li><a href="#bestiario">🐉 Bestiário</a></li>
+            <li><a href="#contato">📖 Contato</a></li>
           </ul>
+          <div className="nav-toggle">☯</div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-container">
+          <div className="hero-content">
+            <div className="hero-badge">✦ REINO DE UMBRAETH ✦</div>
+            <h1>
+              <span className="glow-text">As Crônicas</span>
+              <br />
+              de Umbraeth
+            </h1>
+            <p className="hero-subtitle">
+              "Nas sombras do esquecimento, uma era de trevas desperta. 
+              O destino do reino está em suas mãos, herói."
+            </p>
+            <div className="hero-buttons">
+              <button className="btn-primary" onClick={() => setCount(count + 1)}>
+                🗡️ Iniciar Jornada {count > 0 && `(${count})`}
+              </button>
+              <button className="btn-secondary">
+                📜 O Profecia
+              </button>
+            </div>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">7</span>
+                <span className="stat-label">Reinos</span>
+              </div>
+              <div className="stat-divider">|</div>
+              <div className="stat-item">
+                <span className="stat-number">12</span>
+                <span className="stat-label">Heróis Lendários</span>
+              </div>
+              <div className="stat-divider">|</div>
+              <div className="stat-item">
+                <span className="stat-number">∞</span>
+                <span className="stat-label">Aventuras</span>
+              </div>
+            </div>
+          </div>
+          <div className="hero-image">
+            <div className="hero-image-frame">
+              <img src={heroImg} alt="Umbraeth" />
+              <div className="image-overlay"></div>
+              <div className="image-runes">ᚠ ᚢ ᚦ ᚨ ᚱ</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {/* Features Section */}
+      <section className="features">
+        <h2>⚔️ O Que Te Aguarda em Umbraeth</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon">🏰</div>
+            <h3>Reinos Sombrios</h3>
+            <p>Explore terras esquecidas, castelos amaldiçoados e florestas encantadas</p>
+            <div className="feature-rune">ᚲ</div>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">🐲</div>
+            <h3>Criaturas Lendárias</h3>
+            <p>Enfrente dragões anciões, demônios das trevas e seres ancestrais</p>
+            <div className="feature-rune">ᚷ</div>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">⚡</div>
+            <h3>Magia Ancestral</h3>
+            <p>Domine os elementos e desvende os segredos da magia proibida</p>
+            <div className="feature-rune">ᚹ</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-logo">
+            <span>⚔️ UMBRAETH</span>
+            <span className="footer-sub">As Crônicas</span>
+          </div>
+          <div className="footer-links">
+            <a href="#">📜 Profecia</a>
+            <a href="#">⚔️ Guerrear</a>
+            <a href="#">🔮 Magia</a>
+            <a href="#">🐉 Bestiário</a>
+          </div>
+          <div className="footer-copy">
+            <p>© 2024 - As Crônicas de Umbraeth - Todos os direitos reservados aos senhores das trevas</p>
+            <div className="footer-runes">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ</div>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }
