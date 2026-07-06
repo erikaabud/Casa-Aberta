@@ -2,10 +2,17 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
+import { useNavigate } from 'react-router-dom'
+import PainelCadastrar from './Pages/PainelCadastrar.jsx'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const navigate = useNavigate()
+  const [showCadastro, setShowCadastro] = useState(false)
+  const handleStartJourney = () => setShowCadastro(true)
+
+  if (showCadastro) return <PainelCadastrar />
 
   return (
     <>
@@ -39,11 +46,11 @@ function App() {
               de Umbraeth
             </h1>
             <p className="hero-subtitle">
-              "Nas sombras do esquecimento, uma era de trevas desperta. 
+              "Nas sombras do esquecimento, uma era de trevas desperta.
               O destino do reino está em suas mãos, herói."
             </p>
             <div className="hero-buttons">
-              <button className="btn-primary" onClick={() => setCount(count + 1)}>
+              <button className="btn-primary" onClick={handleStartJourney}>
                 🗡️ Iniciar Jornada {count > 0 && `(${count})`}
               </button>
               <button className="btn-secondary">
