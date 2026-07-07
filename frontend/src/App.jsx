@@ -25,10 +25,7 @@ function App() {
             <span className="logo-subtitle">As Crônicas</span>
           </div>
           <ul className="nav-menu">
-            <li><a href="#home">✦ Início</a></li>
-            <li><a href="#lore">📜 Lore</a></li>
-            <li><a href="#herois">⚔️ Heróis</a></li>
-            <li><a href="#bestiario">🐉 Bestiário</a></li>
+           
             <li><a href="#contato">📖 Contato</a></li>
           </ul>
           <div className="nav-toggle">☯</div>
