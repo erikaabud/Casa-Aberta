@@ -1,0 +1,570 @@
+/* PlayerEntry.css */
+
+.player-entry-container {
+  position: relative;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.entry-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(20, 10, 30, 0.85);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 30px;
+  padding: 3rem;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
+  animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.entry-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.entry-card::-webkit-scrollbar-track {
+  background: rgba(168, 85, 247, 0.05);
+  border-radius: 10px;
+}
+
+.entry-card::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 10px;
+}
+
+.entry-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.5);
+}
+
+.entry-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.entry-logo {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.entry-header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.entry-subtitle {
+  color: #8b7a9a;
+  font-size: 1rem;
+}
+
+/* Progresso */
+.entry-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  gap: 0.5rem;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0.4;
+  transition: all 0.5s ease;
+}
+
+.progress-step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(168, 85, 247, 0.1);
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  color: #8b7a9a;
+  font-weight: 700;
+  transition: all 0.5s ease;
+}
+
+.progress-step.active .step-number {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  border-color: #7c3aed;
+  color: white;
+  box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  color: #8b7a9a;
+  font-weight: 600;
+}
+
+.progress-step.active .step-label {
+  color: #a78bfa;
+}
+
+.progress-line {
+  width: 50px;
+  height: 2px;
+  background: rgba(168, 85, 247, 0.2);
+  transition: all 0.5s ease;
+}
+
+.progress-line.active {
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+}
+
+/* Conteúdo */
+.entry-content {
+  min-height: 350px;
+}
+
+.etapa-token,
+.etapa-vaga,
+.etapa-personagem {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.etapa-icon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.etapa-token h2,
+.etapa-vaga h2,
+.etapa-personagem h2 {
+  text-align: center;
+  color: #e0d5e8;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.etapa-token p,
+.etapa-vaga p,
+.etapa-personagem p {
+  text-align: center;
+  color: #8b7a9a;
+  margin-bottom: 1.5rem;
+}
+
+/* Etapa 1: Token */
+.input-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-token-grande {
+  flex: 1;
+  background: rgba(5, 0, 10, 0.5);
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+  color: #e0d5e8;
+  font-size: 1.5rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.input-token-grande:focus {
+  outline: none;
+  border-color: #a855f7;
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+}
+
+.btn-buscar {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-buscar:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 5px 30px rgba(124, 58, 237, 0.4);
+}
+
+.btn-buscar:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.dica-token {
+  background: rgba(168, 85, 247, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.1);
+  border-radius: 10px;
+  padding: 0.8rem;
+  color: #6b5b7a;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Etapa 2: Vaga */
+.grupo-nome {
+  font-size: 1.3rem;
+  color: #a78bfa !important;
+  font-weight: 600;
+}
+
+.vagas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.vaga-card {
+  background: rgba(10, 5, 20, 0.5);
+  border: 2px solid rgba(168, 85, 247, 0.1);
+  border-radius: 16px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.vaga-card.disponivel:hover {
+  border-color: rgba(168, 85, 247, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.vaga-card.selecionado {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.1);
+}
+
+.vaga-card.ocupado {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.vaga-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #c4b5d4;
+  margin-bottom: 0.3rem;
+}
+
+.vaga-icone {
+  font-size: 1.2rem;
+}
+
+.vaga-card-status {
+  font-size: 0.85rem;
+}
+
+.status-disponivel {
+  color: #34d399;
+}
+
+.status-ocupado {
+  color: #f87171;
+}
+
+.vaga-selecionada-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #a855f7;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  animation: pulseBadge 1s ease infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.vaga-info {
+  text-align: center;
+  color: #6b5b7a;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* Etapa 3: Personagem */
+.vaga-selecionada-info {
+  color: #a78bfa !important;
+  font-weight: 600;
+}
+
+.form-personagem {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.campo-personagem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.campo-personagem label {
+  color: #8b7a9a;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.input-personagem {
+  background: rgba(5, 0, 10, 0.5);
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  color: #e0d5e8;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-personagem:focus {
+  outline: none;
+  border-color: #a855f7;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.classe-card {
+  background: rgba(10, 5, 20, 0.3);
+  border: 2px solid rgba(168, 85, 247, 0.1);
+  border-radius: 12px;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.classe-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.classe-card.selecionada {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.classe-emoji {
+  font-size: 1.8rem;
+}
+
+.classe-nome {
+  font-weight: 600;
+  color: #e0d5e8;
+  font-size: 0.9rem;
+}
+
+.classe-descricao {
+  font-size: 0.7rem;
+  color: #6b5b7a;
+  text-align: center;
+}
+
+.btn-criar-personagem {
+  padding: 1rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-criar-personagem:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+}
+
+.btn-criar-personagem:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.entry-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(168, 85, 247, 0.1);
+}
+
+.btn-voltar {
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  color: #a78bfa;
+  padding: 0.5rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-voltar:hover {
+  background: rgba(168, 85, 247, 0.2);
+  transform: translateX(-3px);
+}
+
+.entry-status {
+  color: #6b5b7a;
+  font-size: 0.9rem;
+}
+
+/* Notificações */
+.notificacao {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  font-weight: 600;
+  z-index: 9999;
+  animation: slideIn 0.5s ease, fadeOut 0.5s 2.8s ease forwards;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notificacao.success {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
+}
+
+.notificacao.error {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .entry-card {
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+
+  .entry-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .entry-logo {
+    font-size: 3rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-token-grande {
+    font-size: 1.2rem;
+    padding: 0.8rem;
+  }
+
+  .btn-buscar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vagas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .classes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-line {
+    width: 30px;
+  }
+
+  .entry-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .entry-status {
+    text-align: center;
+  }
+}
