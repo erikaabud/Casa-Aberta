@@ -1,4 +1,6 @@
+// PlayerEntry.jsx
 import { useState, useEffect, useRef } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import "./PlayerEntry.css";
 
 function PlayerEntry({ onEntrar, grupos, onVoltar }) {
@@ -8,17 +10,18 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
   const [vagaSelecionada, setVagaSelecionada] = useState(null);
   const [personagemNome, setPersonagemNome] = useState("");
   const [classeSelecionada, setClasseSelecionada] = useState("");
-  const [etapa, setEtapa] = useState(1); // 1: Token, 2: Vaga, 3: Personagem
+  const [etapa, setEtapa] = useState(1);
   const [notificacao, setNotificacao] = useState(null);
+  const [mostrarQRCode, setMostrarQRCode] = useState(false);
   const canvasRef = useRef(null);
 
   const classesDisponiveis = [
-    { nome: "Guerreiro Sombrio", emoji: "⚔️", cor: "#ef4444", descricao: "Mestre das espadas sombrias" },
-    { nome: "Mago das Sombras", emoji: "🔮", cor: "#8b5cf6", descricao: "Domina a magia das trevas" },
-    { nome: "Caçador de Espectros", emoji: "🏹", cor: "#22d3ee", descricao: "Preciso e letal à distância" },
-    { nome: "Necromante", emoji: "💀", cor: "#34d399", descricao: "Comanda os mortos" },
-    { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b", descricao: "Guerreiro sagrado da destruição" },
-    { nome: "Assassino Etéreo", emoji: "🗡️", cor: "#ec4899", descricao: "Sombra mortal e silenciosa" },
+    { nome: "Guerreiro Sombrio", emoji: "⚔️", cor: "#ef4444", descricao: "Mestre das espadas sombrias", forca: 5, agilidade: 3, magia: 1 },
+    { nome: "Mago das Sombras", emoji: "🔮", cor: "#8b5cf6", descricao: "Domina a magia das trevas", forca: 1, agilidade: 2, magia: 5 },
+    { nome: "Caçador de Espectros", emoji: "🏹", cor: "#22d3ee", descricao: "Preciso e letal à distância", forca: 2, agilidade: 5, magia: 2 },
+    { nome: "Necromante", emoji: "💀", cor: "#34d399", descricao: "Comanda os mortos", forca: 2, agilidade: 2, magia: 4 },
+    { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b", descricao: "Guerreiro sagrado da destruição", forca: 4, agilidade: 2, magia: 3 },
+    { nome: "Assassino Etéreo", emoji: "🗡️", cor: "#ec4899", descricao: "Sombra mortal e silenciosa", forca: 3, agilidade: 5, magia: 1 },
   ];
 
   // Sistema de partículas
@@ -111,7 +114,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
       return;
     }
 
-    // Atualizar o grupo com os dados do jogador
     const grupoAtualizado = {
       ...grupoEncontrado,
       integrantes: grupoEncontrado.integrantes.map(integ => {
@@ -127,7 +129,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
       })
     };
 
-    // Atualizar a lista de grupos
     const novosGrupos = grupos.map(g => 
       g.id === grupoEncontrado.id ? grupoAtualizado : g
     );
@@ -135,7 +136,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
     onEntrar(novosGrupos);
     mostrarNotificacao(`🎉 ${nomeJogador} entrou na equipe ${grupoEncontrado.nomeGrupo}!`, "success");
     
-    // Resetar após 2 segundos
     setTimeout(() => {
       setEtapa(1);
       setToken("");
@@ -158,6 +158,19 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
 
   const getClasseInfo = (nomeClasse) => {
     return classesDisponiveis.find(c => c.nome === nomeClasse);
+  };
+
+  // Função para escanear QR Code (simulada)
+  const escanearQRCode = () => {
+    setMostrarQRCode(true);
+    // Simula a leitura do QR Code após 2 segundos
+    setTimeout(() => {
+      // Exemplo de token vindo do QR Code
+      const tokenExemplo = grupos.find(g => g.tokenGerado)?.token || "ABCD-1234";
+      setToken(tokenExemplo);
+      setMostrarQRCode(false);
+      buscarGrupo();
+    }, 2000);
   };
 
   return (
@@ -195,12 +208,12 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
         </div>
 
         <div className="entry-content">
-          {/* Etapa 1: Token */}
           {etapa === 1 && (
             <div className="etapa-token">
               <div className="etapa-icon">🔑</div>
               <h2>Digite o Token da Equipe</h2>
               <p>Peça o token ao líder da sua equipe</p>
+              
               <div className="input-group">
                 <input
                   type="text"
@@ -220,13 +233,43 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
                   🔍 Buscar
                 </button>
               </div>
+
+              <div className="divisoria-ou">
+                <span>ou</span>
+              </div>
+
+              <button 
+                className="btn-qr-code"
+                onClick={escanearQRCode}
+                disabled={mostrarQRCode}
+              >
+                {mostrarQRCode ? (
+                  <>
+                    <span className="spinner"></span>
+                    Escaneando...
+                  </>
+                ) : (
+                  <>
+                    📷 Escanear QR Code
+                  </>
+                )}
+              </button>
+
+              {mostrarQRCode && (
+                <div className="qr-scanner-animation">
+                  <div className="qr-scanner-box">
+                    <div className="qr-scanner-line"></div>
+                  </div>
+                  <p>Aponte a câmera para o QR Code</p>
+                </div>
+              )}
+
               <div className="dica-token">
                 <span>💡 O token tem 8 caracteres no formato XXXX-XXXX</span>
               </div>
             </div>
           )}
 
-          {/* Etapa 2: Vaga */}
           {etapa === 2 && grupoEncontrado && (
             <div className="etapa-vaga">
               <div className="etapa-icon">👥</div>
@@ -269,7 +312,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
             </div>
           )}
 
-          {/* Etapa 3: Personagem */}
           {etapa === 3 && grupoEncontrado && (
             <div className="etapa-personagem">
               <div className="etapa-icon">⚔️</div>
@@ -302,25 +344,33 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
                 </div>
 
                 <div className="campo-personagem">
-                  <label>🎯 Classe</label>
+                  <label>🎯 Escolha sua Classe</label>
                   <div className="classes-grid">
-                    {classesDisponiveis.map((classe) => (
-                      <div
-                        key={classe.nome}
-                        className={`classe-card ${classeSelecionada === classe.nome ? 'selecionada' : ''}`}
-                        onClick={() => setClasseSelecionada(classe.nome)}
-                        style={{
-                          borderColor: classeSelecionada === classe.nome ? classe.cor : 'rgba(168, 85, 247, 0.2)',
-                          background: classeSelecionada === classe.nome ? `${classe.cor}15` : 'transparent'
-                        }}
-                      >
-                        <span className="classe-emoji" style={{ color: classe.cor }}>
-                          {classe.emoji}
-                        </span>
-                        <span className="classe-nome">{classe.nome}</span>
-                        <span className="classe-descricao">{classe.descricao}</span>
-                      </div>
-                    ))}
+                    {classesDisponiveis.map((classe) => {
+                      const isSelected = classeSelecionada === classe.nome;
+                      return (
+                        <div
+                          key={classe.nome}
+                          className={`classe-card ${isSelected ? 'selecionada' : ''}`}
+                          onClick={() => setClasseSelecionada(classe.nome)}
+                          style={{
+                            borderColor: isSelected ? classe.cor : 'rgba(168, 85, 247, 0.2)',
+                            background: isSelected ? `${classe.cor}15` : 'transparent'
+                          }}
+                        >
+                          <span className="classe-emoji" style={{ color: classe.cor }}>
+                            {classe.emoji}
+                          </span>
+                          <span className="classe-nome">{classe.nome}</span>
+                          <span className="classe-descricao">{classe.descricao}</span>
+                          <div className="classe-atributos">
+                            <span>⚔️ {classe.forca}</span>
+                            <span>🏃 {classe.agilidade}</span>
+                            <span>🔮 {classe.magia}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
