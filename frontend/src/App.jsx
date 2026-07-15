@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import { useNavigate } from 'react-router-dom'
-import PainelCadastrar from './Pages/PainelCadastrar.jsx'
+import PainelCadastrar from './Pages/Cadastro/PainelCadastrar'
 import './App.css'
 
 function App() {
