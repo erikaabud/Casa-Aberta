@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./PainelCadastrar.css";
 
 function PainelCadastrar() {
+  const navigate = useNavigate();
   const [grupos, setGrupos] = useState([
     {
       id: 1,
@@ -212,7 +214,6 @@ function PainelCadastrar() {
         mostrarNotificacao("📋 Token copiado!", "success");
         setTimeout(() => setTokenCopiado(null), 2000);
       }).catch(() => {
-        // Fallback para navegadores que não suportam clipboard
         const textArea = document.createElement('textarea');
         textArea.value = grupo.token;
         document.body.appendChild(textArea);
@@ -304,6 +305,35 @@ function PainelCadastrar() {
         </div>
       )}
 
+      {/* ===== NAVBAR - IGUAL AO APP.CSS ===== */}
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="nav-logo">
+            {/* <span className="logo-icon">⚔️</span> */}
+            <span className="logo-text">UMBRAETH</span>
+            <span className="logo-subtitle">As Crônicas</span>
+          </div>
+          <ul className="nav-menu">
+            <li>
+              <button className="nav-btn" onClick={() => navigate('/')}>
+                Início
+              </button>
+            </li>
+            <li>
+              <button className="nav-btn" onClick={() => navigate('/inventory')}>
+                Inventário
+              </button>
+            </li>
+            <li>
+              <button className="nav-btn" onClick={() => navigate('/about')}>
+                Sobre
+              </button>
+            </li>
+          </ul>
+          <div className="nav-toggle">☯</div>
+        </div>
+      </nav>
+
       <div className="header-heroico">
         <h1 className="titulo-principal">{displayText}</h1>
         <p className="subtitulo-heroico">AS CRÔNICAS DE UMBRAETH</p>
@@ -312,17 +342,17 @@ function PainelCadastrar() {
 
       <div className="estatisticas-globais">
         <div className="stat-card">
-          <span className="stat-icone">🏰</span>
+          {/* <span className="stat-icone">🏰</span> */}
           <span className="stat-numero">{grupos.length}</span>
           <span className="stat-label">Equipes</span>
         </div>
         <div className="stat-card">
-          <span className="stat-icone">👥</span>
+          {/* <span className="stat-icone">👥</span> */}
           <span className="stat-numero">{grupos.length * 4}</span>
           <span className="stat-label">Heróis</span>
         </div>
         <div className="stat-card">
-          <span className="stat-icone">🔑</span>
+          {/* <span className="stat-icone">🔑</span> */}
           <span className="stat-numero">{grupos.filter(g => g.tokenGerado).length}</span>
           <span className="stat-label">Tokens</span>
         </div>
