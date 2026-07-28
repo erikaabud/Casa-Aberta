@@ -19,8 +19,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar }) {
     { nome: "Guerreiro Sombrio", emoji: "⚔️", cor: "#ef4444", descricao: "Mestre das espadas sombrias", forca: 5, agilidade: 3, magia: 1 },
     { nome: "Mago das Sombras", emoji: "🔮", cor: "#8b5cf6", descricao: "Domina a magia das trevas", forca: 1, agilidade: 2, magia: 5 },
     { nome: "Caçador de Espectros", emoji: "🏹", cor: "#22d3ee", descricao: "Preciso e letal à distância", forca: 2, agilidade: 5, magia: 2 },
-    { nome: "Necromante", emoji: "💀", cor: "#34d399", descricao: "Comanda os mortos", forca: 2, agilidade: 2, magia: 4 },
-    { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b", descricao: "Guerreiro sagrado da destruição", forca: 4, agilidade: 2, magia: 3 },
     { nome: "Assassino Etéreo", emoji: "🗡️", cor: "#ec4899", descricao: "Sombra mortal e silenciosa", forca: 3, agilidade: 5, magia: 1 },
   ];
 
