@@ -8,6 +8,7 @@ import inLogo from "../../assets/inBranco.png"
 import instaLogo from "../../assets/instaBranco.png"
 //Imgs
 import camillyv from "../../assets/camillyv.jpg";
+import vitinho from "../../assets/vitinho.png";
 
 const TeamPage = () => {
   const [membroSelecionado, setMembroSelecionado] = useState(null);
@@ -124,13 +125,13 @@ const TeamPage = () => {
     {
       id: 10,
       nome: 'Vitor Hugo',
-      funcao: 'a',
-      emoji: '📝',
+      funcao: 'FRONT-END',
+      imagem: vitinho,
       idade: 20,
       cidade: 'São Paulo',
-      habilidades: [''],
-      bio: '',
-      redes: { github: 'vitinho13y7', linkedin: '', instagram: '' },
+      habilidades: ['Manutenção de Computadores','Linux', 'Programação', 'Redes de Computadores'],
+      bio: 'Estudante de Tecnologia da Informação, apaixonado por programação, infraestrutura de redes e desenvolvimento de sistemas. Atualmente cursando Técnico em Informática e buscando oportunidades para adquirir experiência prática e evoluir profissionalmente na área de TI.',
+      redes: { github: 'vitinho13y7', linkedin: '', instagram: '@vitinho132y7' },
       curiosidade: ''
     }
   ];
