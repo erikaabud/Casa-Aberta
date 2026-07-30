@@ -1,4 +1,4 @@
-/* ===== PLAYER ENTRY - UMBRAETH THEME ===== */
+/* ===== PLAYER ENTRY - TEMA UMBRAETH ===== */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
 
 .player-entry-container {
@@ -655,7 +655,7 @@
   animation: slideIn 0.5s ease, fadeOut 0.5s 2.8s ease forwards;
   backdrop-filter: blur(20px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(74, 44, 26, 0.3);
+  border: 1px solid rgba(212, 165, 116, 0.2);
   font-family: 'Cinzel', serif;
 }
 
