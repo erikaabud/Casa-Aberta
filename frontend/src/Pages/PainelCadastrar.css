@@ -1076,3 +1076,86 @@
   .modal-content { padding: 1rem; }
   .modal-equipe { padding: 0.8rem; }
 }
+
+
+
+/* Badge de Líder Bloqueado */
+.badge-lider-bloqueado {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-family: 'Cinzel', serif;
+}
+
+/* Tag do Líder aguardando */
+.lider-tag {
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(212, 165, 116, 0.1);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #d4a574;
+  text-align: center;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  font-family: 'Cinzel', serif;
+}
+
+/* Campos desabilitados com estilo diferenciado */
+.campo-input:disabled,
+.campo-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(10, 10, 10, 0.3);
+  border-color: rgba(74, 44, 26, 0.1);
+}
+
+.campo-input:disabled::placeholder {
+  color: #3a2a1a;
+}
+
+/* Badge de bloqueado */
+.badge-bloqueado {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-family: 'Cinzel', serif;
+}
+
+/* Card bloqueado */
+.membro-card.bloqueado {
+  opacity: 0.7;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.membro-card.bloqueado:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Aviso de campo bloqueado */
+.campo-aviso {
+  display: block;
+  font-size: 0.6rem;
+  color: #4a3c2a;
+  margin-top: 0.2rem;
+  font-family: 'MedievalSharp', cursive;
+  font-style: italic;
+}
+
+/* Jogador proprietário */
+.jogador-tag.proprietario {
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.2);
+  color: #34d399;
+}
+

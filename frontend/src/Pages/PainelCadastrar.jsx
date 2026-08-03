@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import { useNavigate } from "react-router-dom";
 import PlayerEntry from "./PlayerEntry";
 import "./PainelCadastrar.css";
 
-function PainelCadastrar() {
+function PainelCadastrar({ onEquipeCriada, equipeCriada, usuarioLogado }) {
+  const navigate = useNavigate();
+
   const [grupos, setGrupos] = useState([
     {
       id: 1,
@@ -32,7 +35,7 @@ function PainelCadastrar() {
     { nome: "Mago das Sombras", emoji: "🔮", cor: "#8b5cf6" },
     { nome: "Caçador de Espectros", emoji: "🏹", cor: "#22d3ee" },
     { nome: "Necromante", emoji: "💀", cor: "#34d399" },
-    // { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b" },
+    { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b" },
     { nome: "Assassino Etéreo", emoji: "🗡️", cor: "#ec4899" },
   ];
 
@@ -51,7 +54,7 @@ function PainelCadastrar() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -92,7 +95,7 @@ function PainelCadastrar() {
       canvas.height = window.innerHeight;
     };
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
       if (animationId) {
@@ -123,6 +126,9 @@ function PainelCadastrar() {
     setGrupos(novosGrupos);
     setMostrarPlayerEntry(false);
     mostrarNotificacao("🎉 Bem-vindo à equipe!", "success");
+    
+    // Salvar no localStorage
+    localStorage.setItem('umbraeth_equipe', JSON.stringify(novosGrupos));
   };
 
   const adicionarGrupo = () => {
@@ -236,11 +242,25 @@ function PainelCadastrar() {
     }
   };
 
+  // Função para verificar se o usuário atual é o dono do card
+  const isProprietarioDoCard = (integ) => {
+    if (!usuarioLogado) return false;
+    return integ.jogador === usuarioLogado.email;
+  };
+
+  // Função para verificar se o card está disponível para edição
+  const podeEditarCard = (integ) => {
+    // Se não tem jogador, está disponível (ainda não ocupado)
+    if (!integ.jogador) return true;
+    // Se tem jogador, só o proprietário pode editar
+    return isProprietarioDoCard(integ);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const erros = [];
-    
+
     grupos.forEach((grupo, idx) => {
       if (!grupo.nomeGrupo.trim()) {
         erros.push(`Equipe ${idx + 1}: Nome do grupo é obrigatório`);
@@ -273,13 +293,27 @@ function PainelCadastrar() {
     });
     setEstatisticas(stats);
 
-    mostrarNotificacao("🎉 Todas as equipes registradas!", "success");
+    mostrarNotificacao("🎉 Equipe registrada com sucesso!", "success");
+
+    // Salvar dados no localStorage
+    localStorage.setItem('umbraeth_equipe', JSON.stringify(grupos));
+
+    // Notificar o App que a equipe foi criada
+    if (onEquipeCriada) {
+      onEquipeCriada(grupos);
+    }
+
+    // Redirecionar para o login após 1.5 segundos
+    setTimeout(() => {
+      navigate('/login');
+    }, 1500);
+
     console.log("Dados completos:", grupos);
   };
 
   const iniciarJogo = () => {
-    const todosCompletos = grupos.every(grupo => 
-      grupo.nomeGrupo.trim() && 
+    const todosCompletos = grupos.every(grupo =>
+      grupo.nomeGrupo.trim() &&
       grupo.tokenGerado &&
       grupo.integrantes.every(integ => integ.nome.trim() && integ.classe)
     );
@@ -298,28 +332,29 @@ function PainelCadastrar() {
     return classesDisponiveis.find(c => c.nome === nomeClasse);
   };
 
-  const todosProntos = grupos.every(grupo => 
-    grupo.nomeGrupo.trim() && 
+  const todosProntos = grupos.every(grupo =>
+    grupo.nomeGrupo.trim() &&
     grupo.tokenGerado &&
     grupo.integrantes.every(integ => integ.nome.trim() && integ.classe)
   );
 
-  const totalJogadores = grupos.reduce((acc, g) => 
+  const totalJogadores = grupos.reduce((acc, g) =>
     acc + g.integrantes.filter(i => i.jogador).length, 0
   );
 
   return (
     <div className="painel-container">
       {mostrarPlayerEntry ? (
-        <PlayerEntry 
+        <PlayerEntry
           onEntrar={handlePlayerEntry}
           grupos={grupos}
           onVoltar={() => setMostrarPlayerEntry(false)}
+          usuarioLogado={usuarioLogado}
         />
       ) : (
         <>
           <canvas ref={canvasRef} className="particles-canvas" />
-          
+
           {notificacao && (
             <div className={`notificacao ${notificacao.tipo}`}>
               {notificacao.mensagem}
@@ -334,7 +369,7 @@ function PainelCadastrar() {
 
           {/* Botão Entrar com Token */}
           <div className="entrada-container">
-            <button 
+            <button
               className="btn-entrada-token btn-heroico"
               onClick={() => setMostrarPlayerEntry(true)}
             >
@@ -388,7 +423,7 @@ function PainelCadastrar() {
               {grupos.map((grupo) => (
                 <div key={grupo.id} className="card-grupo">
                   <div className="card-glow"></div>
-                  
+
                   <div className="grupo-header">
                     <div className="grupo-titulo-wrapper">
                       <span className="grupo-icone">🏹</span>
@@ -452,7 +487,7 @@ function PainelCadastrar() {
                   {mostrarQRCodeLider === grupo.id && (
                     <div className="modal-qr-code" onClick={() => setMostrarQRCodeLider(null)}>
                       <div className="modal-qr-content" onClick={(e) => e.stopPropagation()}>
-                        <button 
+                        <button
                           className="btn-fechar-qr"
                           onClick={() => setMostrarQRCodeLider(null)}
                         >
@@ -461,8 +496,8 @@ function PainelCadastrar() {
                         <h3>📷 QR Code da Equipe</h3>
                         <p>Compartilhe este QR Code com sua equipe</p>
                         <div className="qr-code-container">
-                          <QRCodeSVG 
-                            value={grupo.token} 
+                          <QRCodeSVG
+                            value={grupo.token}
                             size={200}
                             bgColor="#0a0a0a"
                             fgColor="#a78bfa"
@@ -474,7 +509,7 @@ function PainelCadastrar() {
                           <span>Token: </span>
                           <code>{grupo.token}</code>
                         </div>
-                        <button 
+                        <button
                           className="btn-baixar-qr"
                           onClick={() => {
                             const svg = document.querySelector('.qr-code-container svg');
@@ -509,32 +544,40 @@ function PainelCadastrar() {
                     {grupo.integrantes.map((integ) => {
                       const classeInfo = getClasseInfo(integ.classe);
                       const vagaOcupada = !!integ.jogador;
-                      
+                      const isLider = integ.isLider;
+                      const podeEditar = podeEditarCard(integ);
+                      const isProprietario = isProprietarioDoCard(integ);
+
                       return (
                         <div
                           key={integ.id}
-                          className={`membro-card ${integ.isLider ? "lider" : ""} ${vagaOcupada ? "ocupada" : ""}`}
+                          className={`membro-card ${isLider ? "lider" : ""} ${vagaOcupada ? "ocupada" : ""} ${!podeEditar && vagaOcupada ? "bloqueado" : ""}`}
                         >
                           <div className="membro-card-glow" />
-                          
+
                           <div className="membro-header">
                             <div className="membro-titulo">
-                              {integ.isLider ? (
+                              {isLider ? (
                                 <span className="icone-lider">👑</span>
                               ) : (
                                 <span className="icone-membro">🛡️</span>
                               )}
                               <h3>
-                                {integ.isLider ? "Líder" : `Membro ${integ.id}`}
+                                {isLider ? "Líder" : `Membro ${integ.id}`}
                               </h3>
-                              {integ.isLider && (
+                              {isLider && (
                                 <span className="badge-lider">LÍDER</span>
                               )}
                               {integ.jogador && (
-                                <span className="badge-jogador">👤 {integ.jogador}</span>
+                                <span className="badge-jogador">
+                                  {isProprietario ? '👤 Você' : `👤 ${integ.jogador}`}
+                                </span>
+                              )}
+                              {vagaOcupada && !isProprietario && (
+                                <span className="badge-bloqueado">🔒 BLOQUEADO</span>
                               )}
                             </div>
-                            {!integ.isLider && !integ.jogador && (
+                            {!isLider && !integ.jogador && (
                               <button
                                 type="button"
                                 className="btn-definir-lider"
@@ -559,8 +602,11 @@ function PainelCadastrar() {
                                 )
                               }
                               className="campo-input"
-                              disabled={!!integ.jogador}
+                              disabled={!podeEditar}
                             />
+                            {!podeEditar && vagaOcupada && (
+                              <span className="campo-aviso">🔒 Editado por {integ.jogador}</span>
+                            )}
                           </div>
 
                           <div className="campo-wrapper">
@@ -576,7 +622,7 @@ function PainelCadastrar() {
                               }
                               className="campo-select"
                               style={classeInfo ? { borderColor: classeInfo.cor } : {}}
-                              disabled={!!integ.jogador}
+                              disabled={!podeEditar}
                             >
                               <option value="">🎯 Escolha sua classe</option>
                               {classesDisponiveis.map((classe) => (
@@ -602,8 +648,8 @@ function PainelCadastrar() {
                           </div>
 
                           {integ.jogador && (
-                            <div className="jogador-tag">
-                              🎮 {integ.jogador}
+                            <div className={`jogador-tag ${isProprietario ? 'proprietario' : ''}`}>
+                              {isProprietario ? '🎮 Você' : `🎮 ${integ.jogador}`}
                             </div>
                           )}
                         </div>
@@ -657,7 +703,7 @@ function PainelCadastrar() {
                     </div>
                   ))}
                 </div>
-                <button 
+                <button
                   className="btn-fechar-modal"
                   onClick={() => setJogoIniciado(false)}
                 >
