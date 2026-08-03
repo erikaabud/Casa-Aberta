@@ -3,6 +3,7 @@ import './App.css';
 import PainelCadastrar from './Pages/PainelCadastrar.jsx';
 import InventoryPage from './Pages/InventoryPage.jsx';
 import AboutPage from './Pages/AboutPage.jsx';
+import TeamPage from './Pages/TeamPage.jsx';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ function HomePage() {
             <span className="subtitulo-logo">As Crônicas</span>
           </div>
           <ul className="menu-nav">
-            <li><Link to="/inventory">Inventário</Link></li>
             <li><Link to="/cadastro">Cadastro</Link></li>
+            <li><Link to="/team">Equipe</Link></li>
             <li><Link to="/about">Sobre</Link></li> 
           </ul>
           <div className="toggle-nav">☯</div>
@@ -112,9 +113,10 @@ function HomePage() {
             <span className="subtitulo-rodape">As Crônicas</span>
           </div>
           <div className="links-rodape">
-            <Link to="/inventory">⚔️ Inventário</Link>
-            <Link to="/cadastro">🔮 Cadastro</Link>
-            <Link to="/about">📜 Profecia</Link>
+            {/* <Link to="/inventory">⚔️ Inventário</Link> */}
+            <Link to="/cadastro"> Cadastro</Link>
+            <Link to="/team"> Equipe</Link>
+            <Link to="/about">Profecia</Link>
           </div>
           <div className="copiar-rodape">
             <p>© 2024 - As Crônicas de Umbraeth - Todos os direitos reservados</p>
@@ -133,6 +135,7 @@ function App() {
       <Route path="/cadastro" element={<PainelCadastrar />} />
       <Route path="/inventory" element={<InventoryPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/team" element={<TeamPage />} />
     </Routes>
   );
 }

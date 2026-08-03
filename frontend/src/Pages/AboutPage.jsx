@@ -40,8 +40,8 @@ const AboutPage = () => {
               </button>
             </li>
             <li>
-              <button className="nav-btn" onClick={() => navigate('/inventory')}>
-                Inventário
+              <button className="nav-btn" onClick={() => navigate('/team')}>
+                Equipe
               </button>
             </li>
           </ul>
