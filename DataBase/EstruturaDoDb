@@ -4,7 +4,8 @@ USE rpg;
 -- Herois / Personagens
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome_usuario VARCHAR(100) NOT NULL UNIQUE
+    nome_usuario VARCHAR(100) NOT NULL UNIQUE,
+	senha_usuario VARCHAR(30) NOT NULL
 );
 
 -- Criar equipe SEM a chave estrangeira do líder primeiro
