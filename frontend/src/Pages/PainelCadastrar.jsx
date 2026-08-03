@@ -32,7 +32,7 @@ function PainelCadastrar() {
     { nome: "Mago das Sombras", emoji: "🔮", cor: "#8b5cf6" },
     { nome: "Caçador de Espectros", emoji: "🏹", cor: "#22d3ee" },
     { nome: "Necromante", emoji: "💀", cor: "#34d399" },
-    { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b" },
+    // { nome: "Paladino da Ruína", emoji: "🛡️", cor: "#f59e0b" },
     { nome: "Assassino Etéreo", emoji: "🗡️", cor: "#ec4899" },
   ];
 
