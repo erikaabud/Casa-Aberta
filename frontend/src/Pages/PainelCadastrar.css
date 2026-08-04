@@ -1159,3 +1159,119 @@
   color: #34d399;
 }
 
+
+/* Badge Disponível */
+.badge-disponivel {
+  background: rgba(52, 211, 153, 0.1);
+  color: #34d399;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  font-family: 'Cinzel', serif;
+  animation: pulseDisponivel 2s ease infinite;
+}
+
+@keyframes pulseDisponivel {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Badge Bloqueado */
+.badge-bloqueado {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-family: 'Cinzel', serif;
+}
+
+/* Card vazio */
+.membro-card.vazia {
+  border-color: rgba(74, 44, 26, 0.15);
+  background: rgba(10, 10, 10, 0.3);
+}
+
+.membro-card.vazia:hover {
+  border-color: rgba(74, 44, 26, 0.3);
+}
+
+/* Card bloqueado */
+.membro-card.bloqueado {
+  opacity: 0.6;
+  border-color: rgba(239, 68, 68, 0.15);
+}
+
+.membro-card.bloqueado:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Card editável */
+.membro-card.editavel {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.03);
+}
+
+.membro-card.editavel:hover {
+  border-color: rgba(52, 211, 153, 0.5);
+}
+
+/* Aviso de campo bloqueado */
+.campo-aviso {
+  display: block;
+  font-size: 0.6rem;
+  color: #f87171;
+  margin-top: 0.2rem;
+  font-family: 'MedievalSharp', cursive;
+  font-style: italic;
+}
+
+/* Aviso de campo disponível */
+.campo-aviso-disponivel {
+  display: block;
+  font-size: 0.6rem;
+  color: #34d399;
+  margin-top: 0.2rem;
+  font-family: 'MedievalSharp', cursive;
+  font-style: italic;
+}
+
+/* Jogador proprietário */
+.jogador-tag.proprietario {
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.2);
+  color: #34d399;
+}
+
+/* Vaga disponível tag */
+.vaga-disponivel-tag {
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(52, 211, 153, 0.05);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #34d399;
+  text-align: center;
+  border: 1px dashed rgba(52, 211, 153, 0.2);
+  font-family: 'MedievalSharp', cursive;
+}
+
+/* Campos desabilitados */
+.campo-input:disabled,
+.campo-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(10, 10, 10, 0.3);
+  border-color: rgba(74, 44, 26, 0.1);
+}
+
+.campo-input:disabled::placeholder {
+  color: #3a2a1a;
+}
+

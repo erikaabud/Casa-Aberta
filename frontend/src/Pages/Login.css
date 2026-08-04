@@ -329,18 +329,6 @@
   cursor: not-allowed;
 }
 
-.login-esqueceu-senha {
-  color: #4a3c2a;
-  text-decoration: none;
-  font-size: 0.7rem;
-  font-family: 'MedievalSharp', cursive;
-  transition: all 0.3s ease;
-}
-
-.login-esqueceu-senha:hover {
-  color: #d4a574;
-}
-
 /* ===== BOTÃO ===== */
 .login-botao {
   width: 100%;
@@ -416,6 +404,7 @@
   font-family: 'Cinzel', serif;
   letter-spacing: 1px;
   font-size: 0.8rem;
+  cursor: default;
 }
 
 .login-link-cadastro:hover {
@@ -524,3 +513,5 @@
     font-size: 1rem;
   }
 }
+
+/* teste */

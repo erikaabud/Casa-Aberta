@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./Login.css";
 
 function Login({ onLogin }) {
-  const [email, setEmail] = useState("");
+  const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
   const [lembrar, setLembrar] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -70,12 +70,16 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!email.trim()) {
-      mostrarNotificacao("❌ Digite seu e-mail!", "error");
+    if (!nome.trim()) {
+      mostrarNotificacao("❌ Digite seu nome de guerreiro!", "error");
       return;
     }
     if (!senha.trim()) {
       mostrarNotificacao("❌ Digite sua senha!", "error");
+      return;
+    }
+    if (senha.length < 3) {
+      mostrarNotificacao("❌ A senha deve ter pelo menos 3 caracteres!", "error");
       return;
     }
 
@@ -85,30 +89,26 @@ function Login({ onLogin }) {
     setTimeout(() => {
       setCarregando(false);
       
-      // Login simulado - aceita qualquer email/senha com validação básica
-      if (email.includes('@') && senha.length >= 3) {
-        mostrarNotificacao("🎉 Bem-vindo às Crônicas de Umbraeth!", "success");
-        
-        // Salvar preferência de lembrar
-        if (lembrar) {
-          localStorage.setItem('umbraeth_email', email);
-        }
-        
-        // Chamar callback de sucesso
-        if (onLogin) {
-          onLogin({ email });
-        }
-      } else {
-        mostrarNotificacao("❌ E-mail ou senha inválidos!", "error");
+      // Login simulado - aceita qualquer nome com senha >= 3 caracteres
+      mostrarNotificacao(`🎉 Bem-vindo, ${nome}! As Crônicas de Umbraeth te aguardam!`, "success");
+      
+      // Salvar preferência de lembrar
+      if (lembrar) {
+        localStorage.setItem('umbraeth_nome', nome);
+      }
+      
+      // Chamar callback de sucesso com o nome do jogador
+      if (onLogin) {
+        onLogin({ nome, email: nome });
       }
     }, 1500);
   };
 
-  // Carregar email salvo
+  // Carregar nome salvo
   useEffect(() => {
-    const emailSalvo = localStorage.getItem('umbraeth_email');
-    if (emailSalvo) {
-      setEmail(emailSalvo);
+    const nomeSalvo = localStorage.getItem('umbraeth_nome');
+    if (nomeSalvo) {
+      setNome(nomeSalvo);
       setLembrar(true);
     }
   }, []);
@@ -141,15 +141,16 @@ function Login({ onLogin }) {
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-campo">
-            <label htmlFor="email">📧 E-mail</label>
+            <label htmlFor="nome">👤 Nome do Guerreiro</label>
             <input
-              id="email"
-              type="email"
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="nome"
+              type="text"
+              placeholder="Digite seu nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
               className="login-input"
               disabled={carregando}
+              autoFocus
             />
             <span className="login-campo-runa">ᚨ</span>
           </div>
@@ -188,9 +189,6 @@ function Login({ onLogin }) {
               />
               <span>Lembrar de mim</span>
             </label>
-            <a href="#" className="login-esqueceu-senha">
-              Esqueceu a senha?
-            </a>
           </div>
 
           <button 
@@ -219,9 +217,9 @@ function Login({ onLogin }) {
         <div className="login-cadastro">
           <p>
             Ainda não é um herói?{' '}
-            <a href="#" className="login-link-cadastro">
+            <span className="login-link-cadastro">
               Crie sua lenda
-            </a>
+            </span>
           </p>
         </div>
 

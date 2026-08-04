@@ -1,18 +1,17 @@
-// PlayerEntry.jsx
 import { useState, useEffect, useRef } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import "./PlayerEntry.css";
 
-function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
+function PlayerEntry({ onEntrar, grupos, onVoltar }) {
   const [token, setToken] = useState("");
   const [nomeJogador, setNomeJogador] = useState("");
+  const [senhaJogador, setSenhaJogador] = useState("");
   const [grupoEncontrado, setGrupoEncontrado] = useState(null);
   const [vagaSelecionada, setVagaSelecionada] = useState(null);
   const [personagemNome, setPersonagemNome] = useState("");
   const [classeSelecionada, setClasseSelecionada] = useState("");
   const [etapa, setEtapa] = useState(1);
   const [notificacao, setNotificacao] = useState(null);
-  const [mostrarQRCode, setMostrarQRCode] = useState(false);
+  const [carregando, setCarregando] = useState(false);
   const canvasRef = useRef(null);
 
   const classesDisponiveis = [
@@ -79,25 +78,12 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
     setTimeout(() => setNotificacao(null), 3000);
   };
 
+  // Etapa 1: Buscar grupo pelo token
   const buscarGrupo = () => {
-    // Verifica se o usuário está logado
-    if (!usuarioLogado) {
-      mostrarNotificacao("❌ Faça login primeiro para entrar na equipe!", "error");
-      return;
-    }
-
     const tokenLimpo = token.toUpperCase().trim();
     const grupo = grupos.find(g => g.token === tokenLimpo);
     
     if (grupo) {
-      // Verifica se o jogador já está na equipe
-      const jogadorExistente = grupo.integrantes.find(integ => integ.jogador === usuarioLogado.email);
-      if (jogadorExistente) {
-        mostrarNotificacao("⚠️ Você já está nesta equipe!", "warning");
-        return;
-      }
-
-      // Verifica vagas disponíveis (excluindo o líder)
       const vagasDisponiveis = grupo.integrantes.filter(integ => !integ.jogador && !integ.isLider);
       if (vagasDisponiveis.length === 0) {
         mostrarNotificacao("❌ Não há vagas disponíveis nesta equipe!", "error");
@@ -105,17 +91,49 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
       }
       setGrupoEncontrado(grupo);
       setEtapa(2);
-      mostrarNotificacao("✅ Token válido! Escolha sua vaga.", "success");
+      mostrarNotificacao("✅ Token válido! Faça login para continuar.", "success");
     } else {
       mostrarNotificacao("❌ Token inválido! Verifique e tente novamente.", "error");
     }
   };
 
-  const selecionarVaga = (integranteId) => {
-    setVagaSelecionada(integranteId);
-    setEtapa(3);
+  // Etapa 2: Fazer login
+  const fazerLogin = () => {
+    if (!nomeJogador.trim()) {
+      mostrarNotificacao("❌ Digite seu nome/apelido!", "error");
+      return;
+    }
+    if (!senhaJogador.trim()) {
+      mostrarNotificacao("❌ Digite sua senha!", "error");
+      return;
+    }
+
+    setCarregando(true);
+
+    setTimeout(() => {
+      setCarregando(false);
+      
+      const jogadorExistente = grupoEncontrado.integrantes.find(
+        integ => integ.jogador === nomeJogador.trim()
+      );
+      
+      if (jogadorExistente) {
+        mostrarNotificacao("❌ Este nome já está sendo usado na equipe!", "error");
+        return;
+      }
+
+      setEtapa(3);
+      mostrarNotificacao(`🎉 Bem-vindo ${nomeJogador}! Escolha sua vaga.`, "success");
+    }, 1500);
   };
 
+  // Etapa 3: Selecionar vaga
+  const selecionarVaga = (integranteId) => {
+    setVagaSelecionada(integranteId);
+    setEtapa(4);
+  };
+
+  // Etapa 4: Criar personagem
   const criarPersonagem = () => {
     if (!personagemNome.trim()) {
       mostrarNotificacao("❌ Digite o nome do seu personagem!", "error");
@@ -132,9 +150,10 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
         if (integ.id === vagaSelecionada) {
           return {
             ...integ,
-            jogador: usuarioLogado?.email || nomeJogador,
-            nome: personagemNome,
-            classe: classeSelecionada
+            jogador: nomeJogador.trim(),
+            nome: personagemNome.trim(),
+            classe: classeSelecionada,
+            podeEditar: true
           };
         }
         return integ;
@@ -145,13 +164,21 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
       g.id === grupoEncontrado.id ? grupoAtualizado : g
     );
 
+    localStorage.setItem('umbraeth_jogador', JSON.stringify({
+      nome: nomeJogador.trim(),
+      senha: senhaJogador.trim(),
+      equipeId: grupoEncontrado.id,
+      vagaId: vagaSelecionada
+    }));
+
     onEntrar(novosGrupos);
-    mostrarNotificacao(`🎉 ${nomeJogador || usuarioLogado?.email} entrou na equipe ${grupoEncontrado.nomeGrupo}!`, "success");
+    mostrarNotificacao(`🎉 ${nomeJogador} entrou na equipe ${grupoEncontrado.nomeGrupo}!`, "success");
     
     setTimeout(() => {
       setEtapa(1);
       setToken("");
       setNomeJogador("");
+      setSenhaJogador("");
       setGrupoEncontrado(null);
       setVagaSelecionada(null);
       setPersonagemNome("");
@@ -164,58 +191,13 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
       onVoltar();
     } else {
       setEtapa(etapa - 1);
-      if (etapa === 3) setVagaSelecionada(null);
+      if (etapa === 4) setVagaSelecionada(null);
     }
   };
 
   const getClasseInfo = (nomeClasse) => {
     return classesDisponiveis.find(c => c.nome === nomeClasse);
   };
-
-  // Função para escanear QR Code (simulada)
-  const escanearQRCode = () => {
-    if (!usuarioLogado) {
-      mostrarNotificacao("❌ Faça login primeiro para entrar na equipe!", "error");
-      return;
-    }
-    
-    setMostrarQRCode(true);
-    setTimeout(() => {
-      const tokenExemplo = grupos.find(g => g.tokenGerado)?.token || "ABCD-1234";
-      setToken(tokenExemplo);
-      setMostrarQRCode(false);
-      buscarGrupo();
-    }, 2000);
-  };
-
-  // Verifica se o usuário está logado
-  if (!usuarioLogado) {
-    return (
-      <div className="player-entry-container">
-        <div className="entry-card">
-          <div className="entry-header">
-            <div className="entry-logo">🔒</div>
-            <h1>ACESSO RESTRITO</h1>
-            <p className="entry-subtitle">Faça login para entrar na equipe</p>
-          </div>
-          <div className="entry-content">
-            <div className="etapa-token">
-              <div className="etapa-icon">🔑</div>
-              <h2>Você precisa estar logado</h2>
-              <p>Para entrar em uma equipe, você deve primeiro fazer login no sistema.</p>
-              <button 
-                className="btn-buscar" 
-                onClick={onVoltar}
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                ↩️ Voltar para o Login
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="player-entry-container">
@@ -232,11 +214,6 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
           <div className="entry-logo">🎮</div>
           <h1>ENTRAR NA EQUIPE</h1>
           <p className="entry-subtitle">Junte-se à aventura em As Crônicas de Umbraeth</p>
-          {usuarioLogado && (
-            <div className="usuario-logado-info">
-              👤 Logado como: <strong>{usuarioLogado.email}</strong>
-            </div>
-          )}
         </div>
 
         <div className="entry-progress">
@@ -247,16 +224,22 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
           <div className={`progress-line ${etapa >= 2 ? 'active' : ''}`}></div>
           <div className={`progress-step ${etapa >= 2 ? 'active' : ''}`}>
             <span className="step-number">2</span>
-            <span className="step-label">Vaga</span>
+            <span className="step-label">Login</span>
           </div>
           <div className={`progress-line ${etapa >= 3 ? 'active' : ''}`}></div>
           <div className={`progress-step ${etapa >= 3 ? 'active' : ''}`}>
             <span className="step-number">3</span>
+            <span className="step-label">Vaga</span>
+          </div>
+          <div className={`progress-line ${etapa >= 4 ? 'active' : ''}`}></div>
+          <div className={`progress-step ${etapa >= 4 ? 'active' : ''}`}>
+            <span className="step-number">4</span>
             <span className="step-label">Personagem</span>
           </div>
         </div>
 
         <div className="entry-content">
+          {/* ETAPA 1: TOKEN */}
           {etapa === 1 && (
             <div className="etapa-token">
               <div className="etapa-icon">🔑</div>
@@ -283,47 +266,70 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
                 </button>
               </div>
 
-              <div className="divisoria-ou">
-                <span>ou</span>
-              </div>
-
-              <button 
-                className="btn-qr-code"
-                onClick={escanearQRCode}
-                disabled={mostrarQRCode}
-              >
-                {mostrarQRCode ? (
-                  <>
-                    <span className="spinner"></span>
-                    Escaneando...
-                  </>
-                ) : (
-                  <>
-                    📷 Escanear QR Code
-                  </>
-                )}
-              </button>
-
-              {mostrarQRCode && (
-                <div className="qr-scanner-animation">
-                  <div className="qr-scanner-box">
-                    <div className="qr-scanner-line"></div>
-                  </div>
-                  <p>Aponte a câmera para o QR Code</p>
-                </div>
-              )}
-
               <div className="dica-token">
                 <span>💡 O token tem 8 caracteres no formato XXXX-XXXX</span>
               </div>
             </div>
           )}
 
+          {/* ETAPA 2: LOGIN */}
           {etapa === 2 && grupoEncontrado && (
+            <div className="etapa-login">
+              <div className="etapa-icon">🔐</div>
+              <h2>Faça seu Login</h2>
+              <p className="grupo-nome">🏹 Entrando em: {grupoEncontrado.nomeGrupo}</p>
+              
+              <div className="form-login">
+                <div className="campo-login">
+                  <label>👤 Nome/Apelido</label>
+                  <input
+                    type="text"
+                    placeholder="Seu nome na equipe"
+                    value={nomeJogador}
+                    onChange={(e) => setNomeJogador(e.target.value)}
+                    className="input-login"
+                    disabled={carregando}
+                  />
+                </div>
+
+                <div className="campo-login">
+                  <label>🔑 Senha</label>
+                  <input
+                    type="password"
+                    placeholder="Sua senha secreta"
+                    value={senhaJogador}
+                    onChange={(e) => setSenhaJogador(e.target.value)}
+                    className="input-login"
+                    disabled={carregando}
+                    onKeyPress={(e) => e.key === 'Enter' && fazerLogin()}
+                  />
+                </div>
+
+                <button 
+                  className="btn-login"
+                  onClick={fazerLogin}
+                  disabled={carregando || !nomeJogador.trim() || !senhaJogador.trim()}
+                >
+                  {carregando ? (
+                    <>
+                      <span className="spinner"></span>
+                      Entrando...
+                    </>
+                  ) : (
+                    '🎮 Entrar na Equipe'
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ETAPA 3: VAGA */}
+          {etapa === 3 && grupoEncontrado && (
             <div className="etapa-vaga">
               <div className="etapa-icon">👥</div>
               <h2>Escolha sua Vaga</h2>
               <p className="grupo-nome">🏹 {grupoEncontrado.nomeGrupo}</p>
+              <p className="jogador-logado">👤 Logado como: <strong>{nomeJogador}</strong></p>
               <div className="vagas-grid">
                 {grupoEncontrado.integrantes.map((integ) => {
                   const ocupado = !!integ.jogador;
@@ -375,38 +381,21 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
               </div>
               <div className="vaga-info">
                 <span>📌 Selecione uma vaga disponível para continuar</span>
-                <br />
-                <span style={{ color: '#4a3c2a', fontSize: '0.7rem' }}>⚠️ A vaga do Líder é bloqueada</span>
               </div>
             </div>
           )}
 
-          {etapa === 3 && grupoEncontrado && (
+          {/* ETAPA 4: PERSONAGEM */}
+          {etapa === 4 && grupoEncontrado && (
             <div className="etapa-personagem">
               <div className="etapa-icon">⚔️</div>
               <h2>Crie seu Personagem</h2>
               <p className="vaga-selecionada-info">
                 🎯 Você está ocupando a vaga de {grupoEncontrado.integrantes.find(i => i.id === vagaSelecionada)?.isLider ? 'Líder' : `Membro ${vagaSelecionada}`}
               </p>
+              <p className="jogador-logado">👤 Logado como: <strong>{nomeJogador}</strong></p>
 
               <div className="form-personagem">
-                <div className="campo-personagem">
-                  <label>👤 Nome do Jogador</label>
-                  <input
-                    type="text"
-                    placeholder="Seu nome real"
-                    value={usuarioLogado?.email || nomeJogador}
-                    onChange={(e) => setNomeJogador(e.target.value)}
-                    className="input-personagem"
-                    disabled={!!usuarioLogado}
-                  />
-                  {usuarioLogado && (
-                    <span style={{ color: '#4a3c2a', fontSize: '0.7rem', fontFamily: 'MedievalSharp, cursive' }}>
-                      Usando o e-mail do login: {usuarioLogado.email}
-                    </span>
-                  )}
-                </div>
-
                 <div className="campo-personagem">
                   <label>📜 Nome do Personagem</label>
                   <input
@@ -466,9 +455,10 @@ function PlayerEntry({ onEntrar, grupos, onVoltar, usuarioLogado }) {
             {etapa === 1 ? '← Voltar' : '← Voltar'}
           </button>
           <div className="entry-status">
-            {etapa === 1 && 'Aguardando token...'}
-            {etapa === 2 && 'Escolha sua vaga'}
-            {etapa === 3 && 'Crie seu personagem'}
+            {etapa === 1 && 'Digite o token'}
+            {etapa === 2 && 'Faça login'}
+            {etapa === 3 && 'Escolha sua vaga'}
+            {etapa === 4 && 'Crie seu personagem'}
           </div>
         </div>
       </div>
