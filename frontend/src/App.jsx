@@ -4,7 +4,7 @@ import './App.css';
 import PainelCadastrar from './Pages/PainelCadastrar.jsx';
 import InventoryPage from './Pages/InventoryPage.jsx';
 import AboutPage from './Pages/AboutPage.jsx';
-import Login from './Pages/Login.jsx';
+import TeamPage from './Pages/TeamPage.jsx';
 
 // ===== COMPONENTE HOME =====
 function HomePage({ equipeCriada, onEquipeCriada }) {
@@ -27,9 +27,9 @@ function HomePage({ equipeCriada, onEquipeCriada }) {
             <span className="subtitulo-logo">As Crônicas</span>
           </div>
           <ul className="menu-nav">
-            <li><Link to="/team">Equipe</Link></li>
             <li><Link to="/cadastro">Cadastro</Link></li>
-            <li><Link to="/about">Sobre</Link></li>
+            <li><Link to="/team">Equipe</Link></li>
+            <li><Link to="/about">Sobre</Link></li> 
           </ul>
           <div className="toggle-nav">☯</div>
         </div>
@@ -121,7 +121,10 @@ function HomePage({ equipeCriada, onEquipeCriada }) {
             <span className="subtitulo-rodape">As Crônicas</span>
           </div>
           <div className="links-rodape">
-            <Link to="/about">📜 Profecia</Link>
+            {/* <Link to="/inventory">⚔️ Inventário</Link> */}
+            <Link to="/cadastro"> Cadastro</Link>
+            <Link to="/team"> Equipe</Link>
+            <Link to="/about">Profecia</Link>
           </div>
           <div className="copiar-rodape">
             <p>© 2024 - As Crônicas de Umbraeth - Todos os direitos reservados</p>
@@ -171,58 +174,13 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Routes>
-        {/* Rota Home */}
-        <Route 
-          path="/" 
-          element={
-            <HomePage 
-              equipeCriada={equipeCriada}
-              onEquipeCriada={() => setEquipeCriada(true)}
-            />
-          } 
-        />
-
-        {/* Rota de Cadastro - Criar Equipe */}
-        <Route 
-          path="/cadastro" 
-          element={
-            <PainelCadastrar 
-              onEquipeCriada={handleEquipeCriada}
-              onLogin={() => setEquipeCriada(true)}
-              equipeCriada={equipeCriada}
-            />
-          } 
-        />
-
-        {/* Rota de Login - Após criar equipe */}
-        <Route 
-          path="/login" 
-          element={
-            <Login 
-              onLogin={handleLogin} 
-              equipeCriada={equipeCriada}
-            />
-          } 
-        />
-
-        {/* Rota do Inventário - Protegida */}
-        <Route 
-          path="/inventory" 
-          element={
-            estaLogado ? (
-              <InventoryPage usuario={usuario} />
-            ) : (
-              <Login onLogin={handleLogin} />
-            )
-          } 
-        />
-
-        {/* Rota Sobre - Pública */}
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/cadastro" element={<PainelCadastrar />} />
+      <Route path="/inventory" element={<InventoryPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/team" element={<TeamPage />} />
+    </Routes>
   );
 }
 
