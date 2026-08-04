@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 import PainelCadastrar from './Pages/PainelCadastrar.jsx';
@@ -5,8 +6,15 @@ import InventoryPage from './Pages/InventoryPage.jsx';
 import AboutPage from './Pages/AboutPage.jsx';
 import TeamPage from './Pages/TeamPage.jsx';
 
-function HomePage() {
+// ===== COMPONENTE HOME =====
+function HomePage({ equipeCriada, onEquipeCriada }) {
   const navigate = useNavigate();
+
+  const handleCriarEquipe = () => {
+    // Marca que a equipe foi criada e redireciona para o cadastro
+    onEquipeCriada();
+    navigate('/cadastro');
+  };
 
   return (
     <>
@@ -42,8 +50,8 @@ function HomePage() {
               O destino do reino está em suas mãos, herói."
             </p>
             <div className="botoes-heroi">
-              <button className="botao-primario" onClick={() => navigate('/cadastro')}>
-                🗡️ Iniciar Jornada
+              <button className="botao-primario" onClick={handleCriarEquipe}>
+                🗡️ Criar Equipe
               </button>
               <button className="botao-secundario" onClick={() => navigate('/about')}>
                 📜 A Profecia
@@ -128,7 +136,43 @@ function HomePage() {
   );
 }
 
+// ===== COMPONENTE PROTEGIDO =====
+function RotaProtegida({ children, estaLogado, equipeCriada }) {
+  // Se não logou e não criou equipe, redireciona para home
+  if (!estaLogado && !equipeCriada) {
+    return <Login onLogin={() => {}} />;
+  }
+  // Se criou equipe mas não logou, mostra login
+  if (!estaLogado && equipeCriada) {
+    return <Login onLogin={() => {}} />;
+  }
+  // Se logou, mostra o conteúdo
+  return children;
+}
+
+// ===== COMPONENTE PRINCIPAL =====
 function App() {
+  const [estaLogado, setEstaLogado] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+  const [equipeCriada, setEquipeCriada] = useState(false);
+  const [dadosEquipe, setDadosEquipe] = useState(null);
+
+  const handleLogin = (dados) => {
+    setUsuario(dados);
+    setEstaLogado(true);
+  };
+
+  const handleLogout = () => {
+    setUsuario(null);
+    setEstaLogado(false);
+    // Não reseta equipeCriada para manter os dados
+  };
+
+  const handleEquipeCriada = (dados) => {
+    setDadosEquipe(dados);
+    setEquipeCriada(true);
+  };
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
