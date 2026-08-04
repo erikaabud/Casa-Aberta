@@ -2,52 +2,85 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './TeamPage.css';
 
-
-//logo
+// LOGOTIPO
 import gitHub from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 import instagram from "../assets/instagram.png";
-//Imgs
+
+// IMGS EQUIPE
 import camillyv from "../assets/camilly.png";
 import gigi from "../assets/gigi.jpg";
-import vitinho from "../assets/vitinho.png";
+import abud from "../assets/abud.png";
+import balys from "../assets/balys.jpg";
+import gabriel from "../assets/gabriel.jpg";
+import luciano from "../assets/luciano.png";
+import juca from "../assets/juca.jpg";
+import vitor from "../assets/vitor.jpg";
 
 const TeamPage = () => {
   const [membroSelecionado, setMembroSelecionado] = useState(null);
+  const [imagemZoom, setImagemZoom] = useState(null); // Estado para o zoom da imagem
+
+  // Função para abrir o zoom da imagem
+  const abrirZoom = (imagem, nome, e) => {
+    e.stopPropagation(); // Evita expandir o card
+    setImagemZoom({ imagem, nome });
+  };
+
+  // Função para fechar o zoom
+  const fecharZoom = () => {
+    setImagemZoom(null);
+  };
+
+  // Função helper para renderizar links sociais
+  const renderSocialLink = (username, url, icon, alt) => {
+    if (!username) return null;
+    
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="social-link"
+        onClick={(e) => e.stopPropagation()}>
+        <img src={icon} alt={alt} className='social-icon' />
+      </a>
+    );
+  };
 
   const equipe = [
     {
       id: 1,
       nome: 'Balys Kozakevic',
-      funcao: 'a',
-      emoji: '👩‍💼',
+      funcao: 'FRONT-END',
+      imagem: balys,
       idade: 22,
       cidade: 'São Paulo',
       habilidades: [],
-      bio: '',
-      redes: { github: '', linkedin: '', instagram: '' },
-      curiosidade: ''
+      bio: 'Sou estudante do curso de Tecnico em Informatica do Senac, possuo certificado em montagem e desmontagem de computadores, certificado em redes, em busca do certificado de banco de dados, JavaScript, CSS, HTMl e MySQL, tenho experiência em trabalho de equipe.',
+      redes: { github: 'BalysSantosKozakevic', linkedin: '', instagram: '' },
+      curiosidade: 'Apesar de estar estudando a area de TI, também faço parte da area de segurança utilizando auto defesa e tendo que lidar com o público.'
     },
     {
       id: 2,
       nome: 'Camilly Victoria',
-      funcao: 'Scrum Master',
+      funcao: 'FRONT-END',
       imagem: camillyv,
       idade: 21,
       cidade: 'São Paulo',
-      habilidades: ['Agile', 'Facilitação', 'Mediação', 'Kanban'],
-      bio: 'Camilly é a mestre do Scrum, garantindo que a equipe trabalhe de forma ágil e colaborativa, removendo impedimentos e promovendo melhorias contínuas.',
-      redes: { github: 'camillysantos-dev', linkedin: 'camillyvictoriadosantos02', instagram: '@eae_camilly_' },
+      habilidades: ['JavaScript', 'HTML', 'CSS'],
+      bio: 'Estudante de Análise e Desenvolvimento de Sistemas e Técnico em Tecnologia da Informação. Atua no desenvolvimento de interfaces web responsivas e intuitivas utilizando HTML, CSS e JavaScript, buscando criar experiências modernas, acessíveis e focadas na melhor experiência do usuário.',
+      redes: { github: 'camillysantos-dev', linkedin: 'camillyvictoriadosantos02', instagram: 'eae_camilly_' },
       curiosidade: 'Coleciona tatuagens como coleciona métricas ágeis - cada uma tem uma história e um significado. Para ela, a pele é o backlog da vida: tudo planejado, mas sempre aberta a novas ideias.'
     },
     {
       id: 3,
       nome: 'Erika Abud',
-      funcao: 'Product Owner',
-      emoji: '👩‍💻',
+      funcao: 'LÍDER',
+      imagem: abud, 
       idade: 17,
       cidade: 'São Paulo',
-      habilidades: ['Liderança', 'Gestão de Projetos', 'Comunicação', 'Scrum'],
+      habilidades: [ 'Gestão de Projetos', 'Comunicação', 'JavaScript'],
       bio: 'Erika é a líder da equipe, responsável por garantir que o projeto atenda às necessidades dos usuários e entregue valor real.',
       redes: { github: 'erikaabud', linkedin: '', instagram: '' },
       curiosidade: ''
@@ -55,59 +88,59 @@ const TeamPage = () => {
     {
       id: 4,
       nome: 'Gabriel de Souza',
-      funcao: 'a',
-      emoji: '👨‍💻',
+      funcao: 'FRONT-END',
+      imagem: gabriel,
       idade: 20,
       cidade: 'São Paulo',
-      habilidades: [''],
+      habilidades: ['HTML','CSS'],
       bio: '',
       redes: { github: 'gabrieldesouzabobmarley-creator', linkedin: '', instagram: '' },
       curiosidade: ''
     },
     {
       id: 5,
-      nome: 'Giovanni Calado',
-      funcao: 'Desenvolvedor Backend e SQL',
+      nome: 'Geovanni Calado',
+      funcao: 'BACK-END',
       imagem: gigi,
       idade: 19,
       cidade: 'São Paulo',
-      habilidades: ['Concentrado', 'Solicito', 'Ágil'],
-      bio: 'Um cara esforçado e pronto para fazer o bem sempre que possível.',
-      redes: { github: 'Hackrin01', linkedin: '', instagram: '' },
+      habilidades: ['MySQL', 'Manutenção em HardWare', 'JavaScript'],
+      bio: '',
+      redes: { github: 'Hackrin01', linkedin: '', instagram: 'gii.rcalado' },
       curiosidade: 'Gosto de jogos e de ler quadrinhos, mangas e qualquer coisa fantasiosa.'
     },
     {
       id: 6,
       nome: 'João Pedro',
-      funcao: 'a',
-      emoji: '🔧',
+      funcao: 'BACK-END',
+      imagem: juca,
       idade: 21,
       cidade: 'São Paulo',
-      habilidades: ['Docker', 'AWS', 'CI/CD', 'Linux'],
-      bio: 'Felipe é o engenheiro de infraestrutura. Ele cuida da implantação, monitoramento e escalabilidade do sistema, garantindo alta disponibilidade.',
-      redes: { github: 'Jpedroozxs', linkedin: '', instagram: '' },
-      curiosidade: 'Tem uma fazenda de servidores em casa e adora jogar RPG de mesa 🎲'
+      habilidades: ['JavaScript', 'Banco de Dados', 'Desenvolvimento Web'],
+      bio: 'Estudante de Técnico em Informática no Senac Santana. Atualmente desenvolvo projetos utilizando JavaScript para backend e MySQL para gerenciamento de banco de dados, aplicando boas práticas de programação e desenvolvimento de sistemas. Possuo certificações Cisco e formação em Assistente de Suporte e Manutenção de Computadores, além de experiência em liderança e disciplina adquiridas no CPOR-SP.',
+      redes: { github: 'Jpedroozxs', linkedin: 'jpedroomarques', instagram: '' },
+      curiosidade: 'Além de estudar desenvolvimento de sistemas, participei do CPOR-SP, onde desenvolvi habilidades de liderança, responsabilidade e trabalho em equipe. Também gosto de explorar novas tecnologias e criar projetos que unem programação e banco de dados.'
     },
     {
       id: 7,
       nome: 'Luciano Filho',
-      funcao: 'Analista de Dados',
-      emoji: '📊',
+      funcao: 'PROJETISTA DE AR',
+      imagem: luciano,
       idade: 18,
       cidade: 'São Paulo',
-      habilidades: [''],
+      habilidades: ['Criatividade', 'Trabalho Manual', 'Montagem Manual'],
       bio: '',
       redes: { github: 'Lucianobfilho', linkedin: '', instagram: '' },
-      curiosidade: ''
+      curiosidade: '.'
     },
     {
       id: 8,
       nome: 'Paulo Santana',
-      funcao: 'a',
+      funcao: 'ROTERISTA',
       emoji: '🚀',
       idade: 22,
       cidade: 'São Paulo',
-      habilidades: [''],
+      habilidades: ['Craitividade', 'Narrativa', 'Criação de Missões'],
       bio: '',
       redes: { github: '', linkedin: '', instagram: '' },
       curiosidade: ''
@@ -115,25 +148,24 @@ const TeamPage = () => {
     {
       id: 9,
       nome: 'Paulo Vicenty',
-      funcao: 'a',
-      emoji: '🧪',
+      funcao: 'BANCO DE DADOS',
       idade: 21,
       cidade: 'São Paulo',
-      habilidades: [''],
+      habilidades: ['SQL', 'Modelagem de Dados', 'Análise de Dados'],
       bio: '',
       redes: { github: 'paulovicenty-debug', linkedin: '', instagram: '' },
-      curiosidade: ''
+      curiosidade: ' '
     },
     {
       id: 10,
       nome: 'Vitor Hugo',
       funcao: 'FRONT-END',
-      imagem: vitinho,
+      imagem: vitor,
       idade: 19,
       cidade: 'São Paulo',
-      habilidades: ['Manutenção de Computadores','Linux', 'Programação', 'Redes de Computadores'],
+      habilidades: ['Manutenção de Computadores', 'Programação', 'Redes de Computadores'],
       bio: 'Estudante de Tecnologia da Informação, apaixonado por programação, infraestrutura de redes e desenvolvimento de sistemas. Atualmente cursando Técnico em Informática e buscando oportunidades para adquirir experiência prática e evoluir profissionalmente na área de TI.',
-      redes: { github: 'vitinho13y7', instagram: '@vitinho132y7' },
+      redes: { github: 'vitinho13y7', linkedin: '', instagram: '@vitinho132y7' },
       curiosidade: 'Gosto de entender como tudo funciona por trás da tecnologia, desde linhas de código até a configuração de servidores e redes.'
     }
   ];
@@ -141,7 +173,6 @@ const TeamPage = () => {
   // Estatísticas da equipe
   const totalMembros = equipe.length;
   const mediaIdade = Math.round(equipe.reduce((acc, m) => acc + m.idade, 0) / totalMembros);
-  const cidades = [...new Set(equipe.map(m => m.cidade))];
   const habilidadesUnicas = [...new Set(equipe.flatMap(m => m.habilidades))];
 
   return (
@@ -154,9 +185,7 @@ const TeamPage = () => {
           </div>
           <ul className="menu-nav">
             <li><Link to="/">Início</Link></li>
-            <li><Link to="/inventory">Inventário</Link></li>
             <li><Link to="/cadastro">Cadastro</Link></li>
-            <li><Link to="/equipe">Equipe</Link></li>
             <li><Link to="/about">Sobre</Link></li>
           </ul>
         </div>
@@ -196,7 +225,17 @@ const TeamPage = () => {
               onClick={() => setMembroSelecionado(membroSelecionado?.id === membro.id ? null : membro)}
             >
               <div className="team-card-header">
-                <div className="team-avatar">
+                <div 
+                  className="team-avatar"
+                  onClick={(e) => {
+                    if (membro.imagem) {
+                      abrirZoom(membro.imagem, membro.nome, e);
+                    } else {
+                      e.stopPropagation();
+                    }
+                  }}
+                  style={{ cursor: membro.imagem ? 'pointer' : 'default' }}
+                >
                   {membro.imagem ? (
                     <img
                       src={membro.imagem}
@@ -214,7 +253,7 @@ const TeamPage = () => {
               <p className="team-card-role">{membro.funcao}</p>
 
               <div className="team-card-info">
-                <span class="material-symbols-outlined">
+                <span className="material-symbols-outlined">
                   location_on
                 </span>
                 <p>{membro.cidade}</p>
@@ -233,24 +272,28 @@ const TeamPage = () => {
                 )}
               </div>
 
+              {/* REDES SOCIAIS - Agora com renderização condicional */}
               <div className="team-card-social">
-                <a
-                  href={`https://github.com/${membro.redes.github}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link">
-                  <img src={gitHub} alt="GitHub" className='social-icon' />
-                </a>
-
-                <a href={`https://linkedin.com/in/${membro.redes.linkedin}`} target="_blank" rel="noopener noreferrer" className="social-link">
-                  <img src={linkedin} alt='Linkedln' className='social-icon' />
-                </a>
-                <a href={`https://instagram.com/${membro.redes.instagram}`}
-                  target="_blank" rel="noopener noreferrer" className="social-link">
-                  <img src={instagram} alt='Instagram' className='social-icon' />
-                </a>
+                {renderSocialLink(
+                  membro.redes?.github,
+                  `https://github.com/${membro.redes.github}`,
+                  gitHub,
+                  'GitHub'
+                )}
+                {renderSocialLink(
+                  membro.redes?.linkedin,
+                  `https://linkedin.com/in/${membro.redes.linkedin}`,
+                  linkedin,
+                  'LinkedIn'
+                )}
+                {renderSocialLink(
+                  membro.redes?.instagram,
+                  `https://instagram.com/${membro.redes.instagram}`,
+                  instagram,
+                  'Instagram'
+                )}
               </div>
-
+              
               <div className="team-card-expand">
                 <span className="expand-icon">{membroSelecionado?.id === membro.id ? '▲' : '▼'}</span>
                 <span className="expand-text">
@@ -263,11 +306,11 @@ const TeamPage = () => {
                 <div className="team-card-details">
                   <div className="detail-section">
                     <h4>📖 Sobre</h4>
-                    <p>{membro.bio}</p>
+                    <p>{membro.bio || 'Informações não disponíveis'}</p>
                   </div>
                   <div className="detail-section">
                     <h4>💡 Curiosidade</h4>
-                    <p>{membro.curiosidade}</p>
+                    <p>{membro.curiosidade || 'Informações não disponíveis'}</p>
                   </div>
                   <div className="detail-section">
                     <h4>🛠️ Todas as Habilidades</h4>
@@ -284,66 +327,38 @@ const TeamPage = () => {
         </div>
       </div>
 
-      {/* Seção de Estatísticas Detalhadas */}
-      <section className="team-stats-section">
-
-        <div className="stats-card">
-          <h3>📈 Funções da Equipe</h3>
-          <div className="role-chart">
-            {['Desenvolvedor', 'Designer', 'Gestão', 'Qualidade', 'Suporte', 'Dados', 'DevOps'].map((role, idx) => {
-              const count = equipe.filter(m => m.funcao.includes(role) || m.funcao.includes(role.slice(0, -1))).length;
-              return count > 0 && (
-                <div key={idx} className="role-bar">
-                  <span className="role-label">{role}</span>
-                  <div className="role-bar-track">
-                    <div className="role-bar-fill" style={{ width: `${(count / totalMembros) * 100}%` }}>
-                      <span className="role-count">{count}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+      {/* MODAL DE ZOOM DA IMAGEM */}
+      {imagemZoom && (
+        <div className="image-zoom-overlay" onClick={fecharZoom}>
+          <div className="image-zoom-container" onClick={(e) => e.stopPropagation()}>
+            <button className="image-zoom-close" onClick={fecharZoom}>
+              ✕
+            </button>
+            <img 
+              src={imagemZoom.imagem} 
+              alt={imagemZoom.nome} 
+              className="image-zoom-img"
+            />
+            <p className="image-zoom-name">{imagemZoom.nome}</p>
           </div>
         </div>
-
-        <div className="stats-card">
-          <h3>⭐ Top Habilidades</h3>
-          <div className="top-skills">
-            {habilidadesUnicas
-              .map(skill => ({
-                skill,
-                count: equipe.filter(m => m.habilidades.includes(skill)).length
-              }))
-              .sort((a, b) => b.count - a.count)
-              .slice(0, 8)
-              .map((item, idx) => (
-                <div key={idx} className="skill-popularity">
-                  <span className="skill-name">{item.skill}</span>
-                  <div className="skill-bar">
-                    <div className="skill-bar-fill" style={{ width: `${(item.count / totalMembros) * 100}%` }} />
-                  </div>
-                  <span className="skill-count">{item.count}x</span>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section >
+      )}
 
       {/* Botão Voltar */}
-      < div className="team-footer-actions" >
+      <div className="team-footer-actions">
         <Link to="/" className="voltar-link">← Voltar ao início</Link>
-      </div >
+      </div>
 
       {/* Rodapé */}
-      < footer className="team-footer" >
-        <p>Casa Aberta Senac 2026 · Turma T.I 101 · {totalMembros} alunos</p>
+      <footer className="team-footer">
+        <p>Casa Aberta Senac 2026 · Turma T.I 101 </p>
         <div className="team-footer-meta">
           <span>Feito com muito código e café</span>
           <span className="footer-divider">|</span>
           <span>Sempre aprendendo</span>
         </div>
-      </footer >
-    </div >
+      </footer>
+    </div>
   );
 };
 
