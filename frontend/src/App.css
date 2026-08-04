@@ -566,3 +566,76 @@ body {
     flex-direction: column;
   }
 }
+
+
+/* ===== APP - UMBRAETH THEME ===== */
+
+.App {
+  min-height: 100vh;
+  background: #0a0a0a;
+}
+
+/* ===== BOTÃO DE SAIR ===== */
+.btn-sair {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: scale(1.05);
+}
+
+/* ===== USUÁRIO LOGADO ===== */
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #d4c5a9;
+  font-size: 0.8rem;
+  font-family: 'Cinzel', serif;
+}
+
+.usuario-info span {
+  color: #d4a574;
+  font-weight: 700;
+}
+
+.usuario-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a2c1a, #2a1a0a);
+  border: 1px solid #8b5a2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .usuario-info {
+    font-size: 0.7rem;
+    gap: 0.5rem;
+  }
+
+  .btn-sair {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.6rem;
+  }
+
+  .usuario-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
