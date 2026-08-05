@@ -5,6 +5,7 @@ import PainelCadastrar from './Pages/PainelCadastrar.jsx';
 import InventoryPage from './Pages/InventoryPage.jsx';
 import AboutPage from './Pages/AboutPage.jsx';
 import TeamPage from './Pages/TeamPage.jsx';
+import RpgCharacterSheet from './Pages/RpgCharacterSheet';
 
 // ===== COMPONENTE HOME =====
 function HomePage({ equipeCriada, onEquipeCriada }) {
@@ -30,6 +31,7 @@ function HomePage({ equipeCriada, onEquipeCriada }) {
             <li><Link to="/cadastro">Cadastro</Link></li>
             <li><Link to="/team">Equipe</Link></li>
             <li><Link to="/about">Sobre</Link></li> 
+            <Link to="/rpg" className="botao-rpg">🎲 Ficha RPG</Link> 
           </ul>
           <div className="toggle-nav">☯</div>
         </div>
@@ -180,6 +182,7 @@ function App() {
       <Route path="/inventory" element={<InventoryPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/team" element={<TeamPage />} />
+      <Route path="/rpg" element={<RpgCharacterSheet />} />
     </Routes>
   );
 }
