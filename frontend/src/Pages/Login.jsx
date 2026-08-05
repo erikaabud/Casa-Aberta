@@ -14,7 +14,7 @@ function Login({ onLogin }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -55,7 +55,7 @@ function Login({ onLogin }) {
       canvas.height = window.innerHeight;
     };
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
       if (animationId) cancelAnimationFrame(animationId);
@@ -69,7 +69,7 @@ function Login({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!nome.trim()) {
       mostrarNotificacao("❌ Digite seu nome de guerreiro!", "error");
       return;
@@ -88,15 +88,15 @@ function Login({ onLogin }) {
     // Simulação de login
     setTimeout(() => {
       setCarregando(false);
-      
+
       // Login simulado - aceita qualquer nome com senha >= 3 caracteres
       mostrarNotificacao(`🎉 Bem-vindo, ${nome}! As Crônicas de Umbraeth te aguardam!`, "success");
-      
+
       // Salvar preferência de lembrar
       if (lembrar) {
         localStorage.setItem('umbraeth_nome', nome);
       }
-      
+
       // Chamar callback de sucesso com o nome do jogador
       if (onLogin) {
         onLogin({ nome, email: nome });
@@ -116,7 +116,7 @@ function Login({ onLogin }) {
   return (
     <div className="login-container">
       <canvas ref={canvasRef} className="login-particles" />
-      
+
       {notificacao && (
         <div className={`login-notificacao ${notificacao.tipo}`}>
           {notificacao.mensagem}
@@ -191,8 +191,8 @@ function Login({ onLogin }) {
             </label>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={`login-botao ${carregando ? 'carregando' : ''}`}
             disabled={carregando}
           >
@@ -217,8 +217,13 @@ function Login({ onLogin }) {
         <div className="login-cadastro">
           <p>
             Ainda não é um herói?{' '}
-            <span className="login-link-cadastro">
-              Crie sua lenda
+            <span>
+              <button
+                className="login-link-cadastro"
+                onClick={() => window.location.href = '/criarLogin'}
+              >
+                Crie sua lenda
+              </button>
             </span>
           </p>
         </div>

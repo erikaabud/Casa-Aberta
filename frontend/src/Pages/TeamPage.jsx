@@ -82,7 +82,7 @@ const TeamPage = () => {
       cidade: 'São Paulo',
       habilidades: [ 'Gestão de Projetos', 'Comunicação', 'JavaScript'],
       bio: 'Erika é a líder da equipe, responsável por garantir que o projeto atenda às necessidades dos usuários e entregue valor real.',
-      redes: { github: 'erikaabud', linkedin: '', instagram: '' },
+      redes: { github: 'erikaabud', linkedin: 'erika-abud-b8a459307', instagram: 'erikaabud_' },
       curiosidade: ''
     },
     {
@@ -93,9 +93,9 @@ const TeamPage = () => {
       idade: 20,
       cidade: 'São Paulo',
       habilidades: ['HTML','CSS'],
-      bio: '',
-      redes: { github: 'gabrieldesouzabobmarley-creator', linkedin: '', instagram: '' },
-      curiosidade: ''
+      bio: 'Sou aluno do curso Senac com certificação em montagem e desmontagem de computador,reparos e manutenções de computadores, internet das coisas, possuo certificado cisco em cibersegurança, instalação de softwares e também tenho uma experiência com trabalho em grupo e desenvolvimento de competências, criação de banco de dados com conhecimento em HTML, CSS, JavaScript e SQL, proativo e com boa comunicação.',
+      redes: { github: 'gabrieldesouzabobmarley-creator', linkedin: '', instagram: 'neroalpha__biel' },
+      curiosidade: 'Alem da parte da tecnologia, tambem gosto da parte musical, toco teclado e estudo dança e canto e já fiz algumas apresentações.'
     },
     {
       id: 5,
@@ -105,8 +105,8 @@ const TeamPage = () => {
       idade: 19,
       cidade: 'São Paulo',
       habilidades: ['MySQL', 'Manutenção em HardWare', 'JavaScript'],
-      bio: '',
-      redes: { github: 'Hackrin01', linkedin: '', instagram: 'gii.rcalado' },
+      bio: 'Sou estudante do curso Técnico em Informática no Senac Santana, onde venho desenvolvendo conhecimentos em programação back-end com JavaScript e MySQL, além de práticas de modelagem de banco de dados e desenvolvimento de sistemas.Também possuo certificações da Cisco e formação como Assistente de Suporte e Manutenção de Computadores, adquirindo experiência tanto na área de infraestrutura quanto no desenvolvimento de software.Valorizo o trabalho em equipe e procuro manter uma comunicação respeitosa e objetiva, facilitando a colaboração entre pessoas com diferentes perfis. Acredito que saber distinguir o ambiente profissional das relações pessoais contribui para um clima organizacional mais produtivo.Busco evoluir continuamente por meio de novos desafios e oportunidades de aprendizado, sempre com dedicação, responsabilidade e compromisso em entregar resultados de qualidade.',
+      redes: { github: 'Hackrin01', linkedin: '/geovanni-rodrigues-calado-n0715s0322', instagram: 'gii.rcalado' },
       curiosidade: 'Gosto de jogos e de ler quadrinhos, mangas e qualquer coisa fantasiosa.'
     },
     {
@@ -149,6 +149,7 @@ const TeamPage = () => {
       id: 9,
       nome: 'Paulo Vicenty',
       funcao: 'BANCO DE DADOS',
+      emoji: '💻',
       idade: 21,
       cidade: 'São Paulo',
       habilidades: ['SQL', 'Modelagem de Dados', 'Análise de Dados'],
@@ -165,7 +166,7 @@ const TeamPage = () => {
       cidade: 'São Paulo',
       habilidades: ['Manutenção de Computadores', 'Programação', 'Redes de Computadores'],
       bio: 'Estudante de Tecnologia da Informação, apaixonado por programação, infraestrutura de redes e desenvolvimento de sistemas. Atualmente cursando Técnico em Informática e buscando oportunidades para adquirir experiência prática e evoluir profissionalmente na área de TI.',
-      redes: { github: 'vitinho13y7', linkedin: '', instagram: '@vitinho132y7' },
+      redes: { github: 'vitinho13y7', linkedin: '', instagram: 'vitinho132y7' },
       curiosidade: 'Gosto de entender como tudo funciona por trás da tecnologia, desde linhas de código até a configuração de servidores e redes.'
     }
   ];
