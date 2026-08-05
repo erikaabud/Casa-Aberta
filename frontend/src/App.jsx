@@ -5,6 +5,8 @@ import PainelCadastrar from './Pages/PainelCadastrar.jsx';
 import InventoryPage from './Pages/InventoryPage.jsx';
 import AboutPage from './Pages/AboutPage.jsx';
 import TeamPage from './Pages/TeamPage.jsx';
+import Login from './Pages/Login.jsx';
+import CriarLogin from './Pages/CriarLogin.jsx';
 
 // ===== COMPONENTE HOME =====
 function HomePage({ equipeCriada, onEquipeCriada }) {
@@ -27,9 +29,10 @@ function HomePage({ equipeCriada, onEquipeCriada }) {
             <span className="subtitulo-logo">As Crônicas</span>
           </div>
           <ul className="menu-nav">
-            <li><Link to="/cadastro">Cadastro</Link></li>
-            <li><Link to="/team">Equipe</Link></li>
-            <li><Link to="/about">Sobre</Link></li> 
+            <li><Link to="/cadastro">Equipe</Link></li>
+            <li><Link to="/team">Desenvolvedores</Link></li>
+            <li><Link to="/about">Sobre</Link></li>
+            <li><Link to= "/Login">Login</Link></li> 
           </ul>
           <div className="toggle-nav">☯</div>
         </div>
@@ -175,11 +178,22 @@ function App() {
 
   return (
     <Routes>
+      <Route 
+        path="/" 
+        element={
+          <HomePage 
+            equipeCriada={equipeCriada} 
+            onEquipeCriada={handleEquipeCriada} 
+          />
+        } 
+      />
       <Route path="/" element={<HomePage />} />
       <Route path="/cadastro" element={<PainelCadastrar />} />
       <Route path="/inventory" element={<InventoryPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/team" element={<TeamPage />} />
+      <Route path="/Login" element={<Login />} />
+      <Route path="CriarLogin" element={<CriarLogin/>} />
     </Routes>
   );
 }
