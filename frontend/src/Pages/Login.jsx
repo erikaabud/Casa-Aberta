@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom"; // Import de navegação
 
 function Login({ onLogin }) {
   const [nome, setNome] = useState("");
@@ -9,6 +10,7 @@ function Login({ onLogin }) {
   const [notificacao, setNotificacao] = useState(null);
   const [carregando, setCarregando] = useState(false);
   const canvasRef = useRef(null);
+  const navigate = useNavigate(); // Variável para navegação
 
   // Sistema de partículas
   useEffect(() => {
@@ -67,7 +69,7 @@ function Login({ onLogin }) {
     setTimeout(() => setNotificacao(null), 3000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!nome.trim()) {
@@ -85,24 +87,71 @@ function Login({ onLogin }) {
 
     setCarregando(true);
 
-    // Simulação de login
-    setTimeout(() => {
+    // Login do usuário com ligação do backend
+
+    try {
+
+      const resposta = await fetch("http://localhost:3000/usuarios/login", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          nome_usuario: nome,
+          senha_usuario: senha
+
+        })
+
+      });
+
+      const dados = await resposta.json();
+
       setCarregando(false);
 
-      // Login simulado - aceita qualquer nome com senha >= 3 caracteres
-      mostrarNotificacao(`🎉 Bem-vindo, ${nome}! As Crônicas de Umbraeth te aguardam!`, "success");
+      if (!resposta.ok) {
 
-      // Salvar preferência de lembrar
+        mostrarNotificacao(dados.mensagem, "error");
+        return;
+
+      }
+
+      mostrarNotificacao(
+        `🎉 Bem-vindo, ${dados.nome_usuario}!`,
+        "success"
+      );
+
       if (lembrar) {
-        localStorage.setItem('umbraeth_nome', nome);
+        localStorage.setItem("umbraeth_nome", nome);
       }
 
-      // Chamar callback de sucesso com o nome do jogador
       if (onLogin) {
-        onLogin({ nome, email: nome });
+        onLogin(dados);
       }
-    }, 1500);
+
+      // Redireciona para a tela de criar equipe
+      
+      setTimeout(()=>{
+        navigate("/cadastro")
+      },1000);
+     
+    } catch (erro) {
+
+      setCarregando(false);
+
+      mostrarNotificacao(
+        "Erro ao conectar com o servidor.",
+        "error"
+      );
+
+      console.error(erro);
+
+    }
   };
+
 
   // Carregar nome salvo
   useEffect(() => {
@@ -217,13 +266,8 @@ function Login({ onLogin }) {
         <div className="login-cadastro">
           <p>
             Ainda não é um herói?{' '}
-            <span>
-              <button
-                className="login-link-cadastro"
-                onClick={() => window.location.href = '/criarLogin'}
-              >
-                Crie sua lenda
-              </button>
+            <span className="login-link-cadastro">
+              Crie sua lenda
             </span>
           </p>
         </div>
@@ -239,5 +283,3 @@ function Login({ onLogin }) {
     </div>
   );
 }
-
-export default Login;
